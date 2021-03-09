@@ -7,7 +7,7 @@ export default class Registration extends React.Component {
         super();
 
         this.state = {
-            error: true,
+            error: false,
         };
     }
     handleClick() {
@@ -15,13 +15,13 @@ export default class Registration extends React.Component {
         axios
             .post("/registration", this.state)
             .then(({ data }) => {
-                if () {
+                if (data.success == true) {
                     // redirect
-                    location.replace('/');
+                    location.replace("/");
                 } else {
                     // render an error message
                     this.setState({
-                        error: true
+                        error: true,
                     });
                 }
             })
@@ -31,13 +31,13 @@ export default class Registration extends React.Component {
     }
 
     handleChange(e) {
-        console.log("e.target.name", e.target.name);
+        // console.log("e.target.name", e.target.name);
         this.setState(
             {
                 // what is between the [] is a vartable
                 [e.target.name]: e.target.value,
-            },
-            () => console.log("this.state", this.state)
+            }
+            // () => console.log("this.state", this.state)
         );
     }
 
@@ -45,7 +45,11 @@ export default class Registration extends React.Component {
         return (
             <div className="registration-container">
                 <h1>Sign up please</h1>
-                {this.state.error && <p>something went wrong :(</p>}
+                {this.state.error && (
+                    <p id="registration-warning-message">
+                        Please fill all the required fields :(
+                    </p>
+                )}
                 <div className="registration-form-container">
                     <button
                         onClick={() => this.handleClick()}

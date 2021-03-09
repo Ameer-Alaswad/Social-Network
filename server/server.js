@@ -2,13 +2,75 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const path = require("path");
+const cookieSession = require("cookie-session");
+const csurf = require("csurf");
+const { hash, compare } = require("./utils/bc.js");
+const db = require("./db");
 
+app.use(
+    cookieSession({
+        secret: `I'm always angry.`,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+    })
+);
+// app.use(csurf());
+
+// app.use(function (req, res, next) {
+//     res.locals.csrfToken = req.csrfToken();
+//     next();
+// });
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+///////////////////////////////////////////
+/// registration
+app.post("/registration", (req, res) => {
+    let { first, last, email, password } = req.body;
+    // first = first.charAt(0).toUpperCase() + first.slice(1);
+    // last = last.charAt(0).toUpperCase() + last.slice(1);
+    if (!first || !last || !email || !password) {
+        return res.json({
+            success: false,
+        });
+    }
+    hash(password)
+        .then((hashedPassword) => {
+            return db.addUser(first, last, email, hashedPassword);
+        })
+        .then(({ rows }) => {
+            console.log("rows", rows);
+            req.session.userId = rows[0].id;
+            res.json({
+                success: true,
+            });
+        })
+        .catch((err) => console.log("err in registration post", err));
+});
+app.get("/welcome", (req, res) => {
+    // is going to run if the user puts /welcome in the url bar
+    if (req.session.userId) {
+        // if the user is logged in, they are NOT allowed to see the welcome page
+        // so we redirect them away from /welcome and towards /, a page they're allowed to see
+        res.redirect("/");
+    } else {
+        // send back HTML, which will then trigger start.js to render Welcome in DOM
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
+});
 
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    // runs if the user goes to literally any route except /welcome
+    if (!req.session.userId) {
+        // if the user is NOT logged in, redirect them to /welcome, which is the only page
+        // they're allowed to see
+        res.redirect("/welcome");
+    } else {
+        // this runs if the user is logged in
+        // in which case send back the HTML, after which start js kicks in and renders our p tag...
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
 });
 
 app.listen(process.env.PORT || 3001, function () {

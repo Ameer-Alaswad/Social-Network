@@ -56,3 +56,9 @@
     text-align: center;
     font-size: 15px;
 }
+
+#registration-warning-message {
+    color: red;
+    font-weight: bold;
+    font-size: 25px;
+}

@@ -1,4 +1,11 @@
 import ReactDOM from "react-dom";
-import Registration from "./registration";
+import Welcome from "./welcome";
 
-ReactDOM.render(<Registration />, document.querySelector("main"));
+let elem;
+if (location.pathname === "/welcome") {
+    elem = <Welcome />;
+} else {
+    elem = <p>my main page of website</p>;
+}
+
+ReactDOM.render(elem, document.querySelector("main"));
