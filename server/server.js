@@ -6,6 +6,7 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const { hash, compare } = require("./utils/bc.js");
 const db = require("./db");
+const { applyMiddleware } = require("redux");
 
 app.use(
     cookieSession({
@@ -13,12 +14,13 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
-// app.use(csurf());
+// it must be uner the cookie applyMiddleware
+app.use(csurf());
 
-// app.use(function (req, res, next) {
-//     res.locals.csrfToken = req.csrfToken();
-//     next();
-// });
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 ///////////////////////////////////////////
 /// registration
+
 app.post("/registration", (req, res) => {
     let { first, last, email, password } = req.body;
     // first = first.charAt(0).toUpperCase() + first.slice(1);
@@ -48,6 +51,43 @@ app.post("/registration", (req, res) => {
         })
         .catch((err) => console.log("err in registration post", err));
 });
+/////////////////////////////////////////////////
+//// Log in
+app.post("/login", (req, res) => {
+    let { email, password } = req.body;
+    let id;
+    if (!email || !password) {
+        return res.json({
+            success: false,
+        });
+    }
+    db.getUser(email)
+        .then(({ rows }) => {
+            const hashed_password = rows[0].password_hash;
+            const match = compare(password, hashed_password);
+            id = rows[0].id;
+            return match;
+        })
+        .then((match) => {
+            if (match) {
+                req.session.userId = id;
+                res.json({
+                    success: true,
+                });
+            } else {
+                res.json({
+                    success: false,
+                });
+            }
+        })
+        .catch((err) => {
+            res.json({
+                success: false,
+            });
+            console.log("err in login post", err);
+        });
+});
+
 app.get("/welcome", (req, res) => {
     // is going to run if the user puts /welcome in the url bar
     if (req.session.userId) {

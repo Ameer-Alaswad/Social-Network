@@ -1,6 +1,7 @@
 import React from "react";
 import "./registration.css";
-import axios from "axios";
+import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -13,7 +14,10 @@ export default class Registration extends React.Component {
     handleClick() {
         // console.log("clicked!!!");
         axios
-            .post("/registration", this.state)
+            .post("/registration", this.state, {
+                xsrfCookieName: "mytoken",
+                xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
+            })
             .then(({ data }) => {
                 if (data.success == true) {
                     // redirect
@@ -44,6 +48,7 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div className="registration-container">
+                <Link to="/login">Click here to Log in!</Link>
                 <h1>Sign up please</h1>
                 {this.state.error && (
                     <p id="registration-warning-message">
