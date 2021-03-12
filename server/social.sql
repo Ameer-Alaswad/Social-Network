@@ -9,3 +9,11 @@ CREATE TABLE users
     password_hash VARCHAR NOT NULL CHECK (password_hash <> ''),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE resetPassword
+(
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL REFERENCES users(email),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

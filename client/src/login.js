@@ -75,6 +75,7 @@ export default class Login extends React.Component {
                 >
                     Submit
                 </button>
+                <Link to="/reset">Forgot your Password?!</Link>
             </div>
         );
     }

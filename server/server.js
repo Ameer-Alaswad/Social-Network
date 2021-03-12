@@ -7,6 +7,8 @@ const csurf = require("csurf");
 const { hash, compare } = require("./utils/bc.js");
 const db = require("./db");
 const { applyMiddleware } = require("redux");
+const ses = require("./ses");
+const cryptoRandomString = require("crypto-random-string");
 
 app.use(
     cookieSession({
@@ -98,6 +100,71 @@ app.get("/welcome", (req, res) => {
         // send back HTML, which will then trigger start.js to render Welcome in DOM
         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
     }
+});
+//////////////////////////////////////
+////send code to reset the password
+
+app.post("/password/reset/start", (req, res) => {
+    let { email } = req.body;
+    db.getUser(email)
+        .then(({ rows }) => {
+            if (email == rows[0].email) {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                console.log("ameer");
+                return db.addCode(email, secretCode);
+            } else {
+                res.json({
+                    success: false,
+                });
+            }
+        })
+        .then(({ rows }) => {
+            console.log("rows[0].code", rows[0].code);
+            ses.sendEmail(
+                "ammeer.z.alaswad@gmail.com",
+                `please enter this code:${rows[0].code} to reset your password`,
+                "Reset password"
+            ).then(() => {
+                res.json({
+                    success: true,
+                });
+            });
+        })
+        .catch((err) => {
+            console.log("err in password reser", err);
+            res.json({
+                success: false,
+            });
+        });
+});
+///////////////////////////////////////////////////////
+//// /password/reset/verify
+app.post("/password/reset/verify", (req, res) => {
+    let { email, code, password } = req.body;
+    db.getCode(email)
+        .then(({ rows }) => {
+            if (code == rows[0].code) {
+                hash(password).then((hashedPassword) => {
+                    db.updatePassword(email, hashedPassword).then(() => {
+                        res.json({
+                            success: true,
+                        });
+                    });
+                });
+            } else {
+                res.json({
+                    success: false,
+                });
+            }
+        })
+        .catch((err) => {
+            console.log("err in password verify", err);
+            res.json({
+                success: false,
+            });
+        });
 });
 
 app.get("*", function (req, res) {
