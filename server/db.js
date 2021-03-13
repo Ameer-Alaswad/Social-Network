@@ -18,6 +18,13 @@ module.exports.getUser = (email) => {
     const params = [email];
     return db.query(q, params);
 };
+module.exports.getUserById = (userId) => {
+    const q = `SELECT first_name,last_name FROM users WHERE
+     id = $1
+     `;
+    const params = [userId];
+    return db.query(q, params);
+};
 
 module.exports.addCode = (email, code) => {
     const q = `
@@ -28,7 +35,7 @@ module.exports.addCode = (email, code) => {
     const params = [email, code];
     return db.query(q, params);
 };
-
+// order by DESC LIMIT 1 to make sure to get the last valid code
 module.exports.getCode = (email) => {
     const q = `
         SELECT * FROM resetPassword
@@ -48,5 +55,15 @@ module.exports.updatePassword = (email, newHashedPassword) => {
         WHERE email = $1
     `;
     const params = [email, newHashedPassword];
+    return db.query(q, params);
+};
+module.exports.uploadImage = (image, id) => {
+    const q = `
+    UPDATE users
+    SET image = $1
+    WHERE id = $2 
+    RETURNING image  
+    `;
+    const params = [image, id];
     return db.query(q, params);
 };
