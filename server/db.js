@@ -19,7 +19,7 @@ module.exports.getUser = (email) => {
     return db.query(q, params);
 };
 module.exports.getUserById = (userId) => {
-    const q = `SELECT first_name,last_name FROM users WHERE
+    const q = `SELECT first_name,last_name,image,bio FROM users WHERE
      id = $1
      `;
     const params = [userId];
@@ -65,5 +65,16 @@ module.exports.uploadImage = (image, id) => {
     RETURNING image  
     `;
     const params = [image, id];
+    return db.query(q, params);
+};
+
+module.exports.updateBio = (bio, userId) => {
+    const q = `
+    UPDATE users
+    SET bio = $1
+    WHERE id = $2
+    RETURNING bio
+    `;
+    const params = [bio, userId];
     return db.query(q, params);
 };

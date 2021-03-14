@@ -8,7 +8,7 @@ const { hash, compare } = require("./utils/bc.js");
 const db = require("./db");
 const { applyMiddleware } = require("redux");
 const ses = require("./ses");
-///////////////upload file stuff//////////
+///////////////upload file setup//////////
 const s3 = require("./s3");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -221,6 +221,26 @@ app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
             console.log("err in upload image", err);
             res.json({
                 success: false,
+            });
+        });
+});
+///////////////////////////////////////////////////
+///update bio
+
+app.post("/updateBio", (req, res) => {
+    console.log(`req.body`, req.body);
+    let { bio } = req.body;
+    db.updateBio(bio, req.session.userId)
+        .then(({ rows }) => {
+            res.json({
+                succes: true,
+                bio: rows[0].bio,
+            });
+        })
+        .catch((err) => {
+            console.log(`err IN UPDATE BIO`, err);
+            res.json({
+                succes: false,
             });
         });
 });

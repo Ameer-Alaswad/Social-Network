@@ -8,10 +8,7 @@ export default class Uploader extends Component {
 
         this.state = {};
     }
-    componentDidMount() {
-        console.log("hi");
-        console.log("props", this.props);
-    }
+    componentDidMount() {}
 
     handleChange(e) {
         this.file = e.target.files[0];
@@ -20,7 +17,7 @@ export default class Uploader extends Component {
         const formData = new FormData();
         formData.append("file", this.file);
         axios.post("/uploadImage", formData).then((response) => {
-            console.log("data", response.data.imageUrl);
+            // console.log("data", response.data.imageUrl);
             this.props.addProfilePicture(response.data.imageUrl);
         });
     }
