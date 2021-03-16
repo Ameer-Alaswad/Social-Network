@@ -57,6 +57,17 @@ export default class App extends Component {
             // we use it wwhen we want to change the whole url
             <BrowserRouter>
                 <div>
+                    <div
+                        className="prfile-pic-container-in-app"
+                        onClick={() => this.toggleUploader()}
+                    >
+                        <ProfilePicutre
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    </div>
                     <Route
                         exact
                         path="/"
@@ -88,17 +99,6 @@ export default class App extends Component {
                         )}
                     />
 
-                    <div
-                        className="prfile-pic-container-in-app"
-                        onClick={() => this.toggleUploader()}
-                    >
-                        <ProfilePicutre
-                            first={this.state.first}
-                            last={this.state.last}
-                            imageUrl={this.state.imageUrl}
-                            toggleUploader={() => this.toggleUploader()}
-                        />
-                    </div>
                     {/* /////////////////////////////// */}
                     {/* ////////////////////////////////// */}
                     {this.state.uploaderIsVisible && (

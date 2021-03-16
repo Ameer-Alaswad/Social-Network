@@ -244,6 +244,28 @@ app.post("/updateBio", (req, res) => {
             });
         });
 });
+///////////////////////////////////////
+/// get user info by id
+app.post("/userid", (req, res) => {
+    console.log(`req.body`, req.body);
+    let { id } = req.body;
+    let currentUserId = req.session.userId;
+    console.log(`id,currenUserId`, id, currentUserId);
+    db.getUserById(id)
+        .then(({ rows }) => {
+            res.json({
+                succes: true,
+                data: rows[0],
+                currentUserId: currentUserId,
+            });
+        })
+        .catch((err) => {
+            console.log(`err in userid`, err);
+            res.json({
+                succes: false,
+            });
+        });
+});
 
 app.get("*", function (req, res) {
     // runs if the user goes to literally any route except /welcome
