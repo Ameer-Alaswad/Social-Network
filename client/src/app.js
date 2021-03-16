@@ -3,7 +3,9 @@ import axios from "./axios";
 import ProfilePicutre from "./components/profilePicture";
 import Uploader from "./components/uploader";
 import Profile from "./components/profile";
+import { BrowserRouter, Route } from "react-router-dom";
 import "./app.css";
+import OtherProfile from "./components/otherProfile";
 
 export default class App extends Component {
     constructor(props) {
@@ -18,7 +20,6 @@ export default class App extends Component {
         };
     }
     componentDidMount() {
-        // console.log(`this.state.bio`, this.state.bio);
         axios
             .get("/userInfo")
             .then((Info) => {
@@ -53,39 +54,63 @@ export default class App extends Component {
 
     render() {
         return (
-            <div>
-                <h1>hi iam profile</h1>
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    bio={this.state.bio}
-                    toggleUploader={() => this.toggleUploader()}
-                    updateBio={(newBio) => this.updateBio(newBio)}
-                />
-                <h1>hi from profilepic</h1>
-                <div
-                    className="prfile-pic-container-in-app"
-                    onClick={() => this.toggleUploader()}
-                >
-                    <ProfilePicutre
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.imageUrl}
-                        toggleUploader={() => this.toggleUploader()}
+            // we use it wwhen we want to change the whole url
+            <BrowserRouter>
+                <div>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                first={this.state.first}
+                                last={this.state.last}
+                                imageUrl={this.state.imageUrl}
+                                bio={this.state.bio}
+                                toggleUploader={() => this.toggleUploader()}
+                                updateBio={(newBio) => this.updateBio(newBio)}
+                            />
+                        )}
                     />
+                    <Route
+                        path="/user/:id"
+                        // when we do not pass props we do not need render and
+                        // match wil automaticlly be passed to the child
+                        render={(props) => (
+                            <OtherProfile
+                                // we use history to remember where we were when we go back
+                                history={props.history}
+                                // we use match to get the id from the params
+                                match={props.match}
+                                // key is important to prevent rendering the same component
+                                // when we click on another profile from other profile
+                                key={props.match.url}
+                            />
+                        )}
+                    />
+
+                    <div
+                        className="prfile-pic-container-in-app"
+                        onClick={() => this.toggleUploader()}
+                    >
+                        <ProfilePicutre
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    </div>
+                    {/* /////////////////////////////// */}
+                    {/* ////////////////////////////////// */}
+                    {this.state.uploaderIsVisible && (
+                        <Uploader
+                            addProfilePicture={(imageUrl) =>
+                                this.addProfilePicture(imageUrl)
+                            }
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    )}
                 </div>
-                {/* /////////////////////////////// */}
-                {/* ////////////////////////////////// */}
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        addProfilePicture={(imageUrl) =>
-                            this.addProfilePicture(imageUrl)
-                        }
-                        toggleUploader={() => this.toggleUploader()}
-                    />
-                )}
-            </div>
+            </BrowserRouter>
         );
     }
 }

@@ -11,8 +11,8 @@ export default class BioEditer extends Component {
         };
     }
     componentDidMount() {
-        console.log(`this.state.bio in bioEditor`, this.state.bio);
-        if (this.state.bio) {
+        console.log(`this.state.bio in bioEditor`, this.props.bio);
+        if (this.props.bio) {
             this.setState({
                 btntext: "edit",
             });
@@ -44,13 +44,14 @@ export default class BioEditer extends Component {
             .then((info) => {
                 // console.log(`info.data`, info.data.bio);
                 this.props.updateBio(info.data.bio);
-
                 if (this.state.bio) {
                     this.setState({
                         btntext: "edit",
                         edit: false,
                     });
                 } else {
+                    this.props.updateBio("tell us about yourself");
+
                     this.setState({
                         btntext: "add bio",
                         edit: false,
@@ -58,12 +59,25 @@ export default class BioEditer extends Component {
                 }
             });
     }
+    bioText() {
+        console.log("this.props.bio :>>>>>> ", this.props.bio);
+        if (this.props.bio === "tell us about yourself") {
+            return "";
+        } else {
+            return this.props.bio;
+        }
+    }
 
     render() {
         return (
             <div>
                 <h1>{this.props.first} </h1>
-                {!this.state.edit && <span> {this.props.bio}</span>}
+                {!this.state.edit && (
+                    <span>
+                        {" "}
+                        <h1>{this.bioText()}</h1>
+                    </span>
+                )}
                 {this.state.edit && (
                     <div>
                         <textarea
