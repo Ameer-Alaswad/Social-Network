@@ -266,6 +266,31 @@ app.post("/userid", (req, res) => {
             });
         });
 });
+////////////////////////////////////
+////// get recently joined users
+
+app.get("/recent-users", (req, res) => {
+    db.getRecentlyJoinedUsers()
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => console.log(`err in recent users`, err));
+});
+
+///////////////////////////////////////////
+/////////////search for users
+app.get("/users/search/:val", (req, res) => {
+    let { val } = req.params;
+    db.searchUsers(val)
+        .then(({ rows }) => {
+            res.json({
+                users: rows,
+            });
+        })
+        .catch((err) => {
+            console.log(`err in get users/search`, err);
+        });
+});
 
 app.get("*", function (req, res) {
     // runs if the user goes to literally any route except /welcome
