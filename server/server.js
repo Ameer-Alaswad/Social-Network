@@ -305,6 +305,50 @@ app.get("/friend/status/:otherUserId", (req, res) => {
         })
         .catch((err) => console.log(`err in friend status`, err));
 });
+////////////////////////////////////
+//////////add friend
+app.post("/friend-addFriend", (req, res) => {
+    let { otherUserId } = req.body;
+    console.log(`req.body`, otherUserId);
+    db.addFriend(req.session.userId, otherUserId, false)
+        .then(() => {
+            res.json({ succes: true });
+        })
+        .catch((err) => console.log(`err in add friend post`, err));
+});
+/////////////////////////////////////////
+////cancel friendship request
+app.post("/friend-cancelRequest", (req, res) => {
+    let { otherUserId } = req.body;
+    console.log(`req.body`, otherUserId);
+    db.cancelRequest(req.session.userId, otherUserId)
+        .then(() => {
+            res.json({ succes: true });
+        })
+        .catch((err) => console.log(`err in add cancel request post`, err));
+});
+/////////////////////////////////////
+///accept friendship
+app.post("/friend-acceptFriendship", (req, res) => {
+    let { otherUserId } = req.body;
+    console.log(`req.body`, otherUserId);
+    db.acceptFriendshipRequest(req.session.userId, otherUserId, true)
+        .then(() => {
+            res.json({ succes: true });
+        })
+        .catch((err) => console.log(`err in add accept request post`, err));
+});
+//////////////////////////////////////
+////// end friendship
+app.post("/friend-endFriendship", (req, res) => {
+    let { otherUserId } = req.body;
+    console.log(`req.body`, otherUserId);
+    db.removeFriend(req.session.userId, otherUserId)
+        .then(() => {
+            res.json({ succes: true });
+        })
+        .catch((err) => console.log(`err in add accept request post`, err));
+});
 
 app.get("*", function (req, res) {
     // runs if the user goes to literally any route except /welcome

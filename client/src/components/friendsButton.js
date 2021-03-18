@@ -18,16 +18,60 @@ export default function FriendsButton(props) {
                 if (response.data.rows.length == 0) {
                     setButtonTxt("send friend request");
                 } else if (response.data.rows[0].accepted == true) {
-                    setButtonTxt("end friendship");
+                    setButtonTxt("End friendship");
                 } else if (response.data.rows[0].sender_id == userId) {
                     setButtonTxt("cancel request");
                 } else {
-                    setButtonTxt("accept friendship request");
+                    setButtonTxt("Accept friendship request");
                 }
             });
     }, []);
     function handleClick() {
-        console.log(`hi `);
+        if (buttonTxt == "send friend request") {
+            axios
+                .post("/friend-addFriend", props, {
+                    xsrfCookieName: "mytoken",
+                    xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
+                })
+                .then(() => {
+                    setButtonTxt("cancel request");
+                })
+                .catch((err) => console.log(`err in axios add friend`, err));
+        } else if (buttonTxt == "cancel request") {
+            axios
+                .post("/friend-cancelRequest", props, {
+                    xsrfCookieName: "mytoken",
+                    xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
+                })
+                .then(() => {
+                    setButtonTxt("send friend request");
+                })
+                .catch((err) => console.log(`err in axios cancelRequest`, err));
+        } else if (buttonTxt == "Accept friendship request") {
+            axios
+                .post("/friend-acceptFriendship", props, {
+                    xsrfCookieName: "mytoken",
+                    xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
+                })
+                .then(() => {
+                    setButtonTxt("End Friendship");
+                })
+                .catch((err) =>
+                    console.log(`err in axios accept friendship`, err)
+                );
+        } else {
+            axios
+                .post("/friend-endFriendship", props, {
+                    xsrfCookieName: "mytoken",
+                    xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
+                })
+                .then(() => {
+                    setButtonTxt("send friend request");
+                })
+                .catch((err) =>
+                    console.log(`err in axios end friendship`, err)
+                );
+        }
     }
 
     return <button onClick={handleClick}>{buttonTxt}</button>;
