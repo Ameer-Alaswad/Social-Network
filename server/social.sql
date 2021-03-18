@@ -20,3 +20,11 @@ CREATE TABLE resetPassword
     email VARCHAR(255) NOT NULL REFERENCES users(email),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE friendships
+(
+    id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES users(id) NOT NULL,
+    recipient_id INT REFERENCES users(id) NOT NULL,
+    accepted BOOLEAN DEFAULT false
+);

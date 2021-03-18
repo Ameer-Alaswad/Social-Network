@@ -291,6 +291,20 @@ app.get("/users/search/:val", (req, res) => {
             console.log(`err in get users/search`, err);
         });
 });
+////////////////////////////////////////////////
+//// /friend/status/
+app.get("/friend/status/:otherUserId", (req, res) => {
+    console.log(`req.params`, req.params);
+    let { otherUserId } = req.params;
+    db.getFriends(req.session.userId, otherUserId)
+        .then(({ rows }) => {
+            res.json({
+                rows: rows,
+                userId: req.session.userId,
+            });
+        })
+        .catch((err) => console.log(`err in friend status`, err));
+});
 
 app.get("*", function (req, res) {
     // runs if the user goes to literally any route except /welcome

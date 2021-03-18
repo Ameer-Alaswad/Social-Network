@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "../axios";
+import FriendsButton from "../components/friendsButton";
 
 export default class OtherProfile extends Component {
     constructor(props) {
@@ -13,16 +14,16 @@ export default class OtherProfile extends Component {
         };
     }
     componentDidMount() {
-        let userId = this.props.match.params;
+        let otherUserId = this.props.match.params;
         console.log(`this.props.match`, this.props.match.params.id);
         axios
-            .post("/userid", userId, {
+            .post("/userid", otherUserId, {
                 xsrfCookieName: "mytoken",
                 xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
             })
             .then((response) => {
                 let imageUrl = response.data.data.image;
-                if (userId.id == response.data.currentUserId) {
+                if (otherUserId.id == response.data.currentotherUserId) {
                     return this.props.history.push("/");
                 }
                 if (response.data.data.image == null) {
@@ -53,6 +54,7 @@ export default class OtherProfile extends Component {
                 </h1>
                 <img src={this.state.image} alt="" />
                 <h1>{this.state.bio}</h1>
+                <FriendsButton otherUserId={this.props.match.params.id} />
             </div>
         );
     }
