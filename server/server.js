@@ -341,6 +341,7 @@ app.post("/friend-acceptFriendship", (req, res) => {
 //////////////////////////////////////
 ////// end friendship
 app.post("/friend-endFriendship", (req, res) => {
+    console.log(`req.body`, req.body);
     let { otherUserId } = req.body;
     console.log(`req.body`, otherUserId);
     db.removeFriend(req.session.userId, otherUserId)
@@ -348,6 +349,19 @@ app.post("/friend-endFriendship", (req, res) => {
             res.json({ succes: true });
         })
         .catch((err) => console.log(`err in add accept request post`, err));
+});
+//////////////////////////////////////
+////get-friends-and-freind-requests
+
+app.get("/get-friends-and-freind-requests", (req, res) => {
+    db.getFriendsAndFreindRequests(req.session.userId)
+        .then(({ rows }) => {
+            let getFriends = rows;
+            res.json(getFriends);
+        })
+        .catch((err) =>
+            console.log(`err in get-friends-and-freind-requests`, err)
+        );
 });
 
 app.get("*", function (req, res) {

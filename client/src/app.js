@@ -7,6 +7,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import "./app.css";
 import OtherProfile from "./components/otherProfile";
 import FindPeople from "./components/findPeople";
+import Friends from "./components/friends";
 
 export default class App extends Component {
     constructor(props) {
@@ -112,6 +113,7 @@ export default class App extends Component {
                     )}
                 </div>
                 <Route path="/users" component={FindPeople} />
+                <Route path="/friends" component={Friends} />
             </BrowserRouter>
         );
     }

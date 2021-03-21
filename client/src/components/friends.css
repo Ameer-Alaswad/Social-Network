@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    background-color: grey;
+    overflow: auto;
+    height: 100%;
+}
+.image-info-in-friends {
+    height: 300px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+.image-info-in-friends img {
+    width: 200px;
+    height: 200px;
+}
