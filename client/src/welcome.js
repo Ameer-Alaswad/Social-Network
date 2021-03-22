@@ -7,7 +7,7 @@ import "./welcome.css";
 export default function Welcome() {
     return (
         <div className="welcome-component-container">
-            <h1>Welcome</h1>
+            <h1 id="logo">Welcome</h1>
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

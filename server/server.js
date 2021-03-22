@@ -281,6 +281,14 @@ app.get("/recent-users", (req, res) => {
 /////////////search for users
 app.get("/users/search/:val", (req, res) => {
     let { val } = req.params;
+    // let space = val.search(" ");
+    // if (space) {
+    //     console.log("space :", space);
+    //     let pure = val.slice(spcae);
+    //     // val = pure;
+    //     console.log("pure :", pure);
+    // }
+
     db.searchUsers(val)
         .then(({ rows }) => {
             res.json({
@@ -362,6 +370,13 @@ app.get("/get-friends-and-freind-requests", (req, res) => {
         .catch((err) =>
             console.log(`err in get-friends-and-freind-requests`, err)
         );
+});
+//////////////////////////////////
+//logout
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/");
 });
 
 app.get("*", function (req, res) {

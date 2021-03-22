@@ -8,6 +8,7 @@ import "./app.css";
 import OtherProfile from "./components/otherProfile";
 import FindPeople from "./components/findPeople";
 import Friends from "./components/friends";
+import Navbar from "./navbar";
 
 export default class App extends Component {
     constructor(props) {
@@ -58,32 +59,42 @@ export default class App extends Component {
         return (
             // we use it wwhen we want to change the whole url
             <BrowserRouter>
-                <div>
-                    <div
-                        className="prfile-pic-container-in-app"
-                        onClick={() => this.toggleUploader()}
-                    >
-                        <ProfilePicutre
-                            first={this.state.first}
-                            last={this.state.last}
-                            imageUrl={this.state.imageUrl}
-                            toggleUploader={() => this.toggleUploader()}
+                <div id="main-container-app">
+                    <Navbar
+                        first={this.state.first}
+                        last={this.state.last}
+                        imageUrl={this.state.imageUrl}
+                        toggleUploader={() => this.toggleUploader()}
+                    />
+                    {this.state.uploaderIsVisible && (
+                        <div id="uplodaer-container-in-app">
+                            <Uploader
+                                addProfilePicture={(imageUrl) =>
+                                    this.addProfilePicture(imageUrl)
+                                }
+                                toggleUploader={() => this.toggleUploader()}
+                            />
+                        </div>
+                    )}
+                    <div id="uploader-profile-container">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    imageUrl={this.state.imageUrl}
+                                    bio={this.state.bio}
+                                    toggleUploader={() => this.toggleUploader()}
+                                    updateBio={(newBio) =>
+                                        this.updateBio(newBio)
+                                    }
+                                />
+                            )}
                         />
                     </div>
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Profile
-                                first={this.state.first}
-                                last={this.state.last}
-                                imageUrl={this.state.imageUrl}
-                                bio={this.state.bio}
-                                toggleUploader={() => this.toggleUploader()}
-                                updateBio={(newBio) => this.updateBio(newBio)}
-                            />
-                        )}
-                    />
+
                     <Route
                         path="/user/:id"
                         // when we do not pass props we do not need render and
@@ -100,20 +111,9 @@ export default class App extends Component {
                             />
                         )}
                     />
-
-                    {/* /////////////////////////////// */}
-                    {/* ////////////////////////////////// */}
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            addProfilePicture={(imageUrl) =>
-                                this.addProfilePicture(imageUrl)
-                            }
-                            toggleUploader={() => this.toggleUploader()}
-                        />
-                    )}
+                    <Route path="/users" component={FindPeople} />
+                    <Route path="/friends" component={Friends} />
                 </div>
-                <Route path="/users" component={FindPeople} />
-                <Route path="/friends" component={Friends} />
             </BrowserRouter>
         );
     }

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
+import "./findPeople.css";
 
 export default function FindPeople() {
-    const [searchTerm, setSearchTerm] = useState();
+    const [searchTerm, setSearchTerm] = useState("");
     const [resultUsers, setResultUsers] = useState();
     const [isThereUsers, setIsThereUsers] = useState(false);
     ////////////////////////////////////////////////////////////////
@@ -14,7 +15,6 @@ export default function FindPeople() {
             .get("/recent-users")
             .then((response) => {
                 setResultUsers(response.data.rows);
-                console.log(`result`, response.data);
             })
             .catch((err) => console.log(`err in axios recent-users`, err));
     }, []);
@@ -23,13 +23,22 @@ export default function FindPeople() {
     /////////////////////////////////////////////////////////////
     useEffect(
         function () {
-            if (searchTerm == undefined) {
-                setSearchTerm(undefined);
+            if (searchTerm == "") {
+                // setSearchTerm("");
+                axios
+                    .get("/recent-users")
+                    .then((response) => {
+                        setResultUsers(response.data.rows);
+                    })
+                    .catch((err) =>
+                        console.log(`err in axios recent-users`, err)
+                    );
             } else {
+                setIsThereUsers(false);
                 axios
                     .get("/users/search/" + searchTerm)
+
                     .then((response) => {
-                        console.log("response.data", response.data);
                         if (response.data.users == "") {
                             setIsThereUsers(true);
                         }
@@ -46,8 +55,10 @@ export default function FindPeople() {
     ///////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
     return (
-        <div>
+        <div className="find-people-container">
             <input
+                className="search-input"
+                placeholder="search for friends"
                 defaultValue={searchTerm}
                 onChange={({ target }) => {
                     setSearchTerm(target.value);
@@ -57,13 +68,25 @@ export default function FindPeople() {
             {resultUsers &&
                 resultUsers.map((user) => {
                     return (
-                        <div key={user.id}>
-                            <Link to={`/user/${user.id}`}>
-                                <div>
+                        <div
+                            className="image-container-findPeople"
+                            key={user.id}
+                        >
+                            <Link
+                                className="link-in-findPeople"
+                                to={`/user/${user.id}`}
+                            >
+                                <h3>
                                     {user.first_name} {user.last_name}
-                                </div>
+                                </h3>
 
-                                <img src={user.image} alt="" />
+                                <img
+                                    src={
+                                        user.image ||
+                                        "https://www.edmundsgovtech.com/wp-content/uploads/2020/01/default-picture_0_0.png"
+                                    }
+                                    alt=""
+                                />
                             </Link>
                         </div>
                     );

@@ -1,0 +1,49 @@
+.find-people-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* .image-container-findPeople img {
+    border-radius: 10;
+} */
+.link-in-findPeople {
+    text-decoration: none;
+}
+.search-input {
+    margin-bottom: 25px;
+    width: 350px;
+    height: 35px;
+    font-size: 20px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.search-input:focus {
+    border: 2px solid rgb(29, 161, 242);
+    outline: none;
+}
+
+.image-container-findPeople {
+    border: 0px solid #1c6ea4;
+    border-radius: 13px 13px 13px 13px;
+    overflow: auto;
+    width: 430px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+.image-container-findPeople img {
+    width: 255px;
+    height: 200px;
+
+    object-fit: cover;
+    border-radius: 5%;
+    border: 1px solid black;
+    margin-bottom: 35px;
+}

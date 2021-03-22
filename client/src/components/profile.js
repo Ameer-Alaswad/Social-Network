@@ -10,14 +10,14 @@ export default function Profile({
     toggleUploader,
     updateBio,
 }) {
-    // console.log(
-    //     `first,last,imageUrl,bio`,
-    //     first,
-    //     last,
-    //     imageUrl,
-    //     bio,
-    //     updateBio
-    // );
+    console.log(
+        `first,last,imageUrl,bio`,
+        first,
+        last,
+        imageUrl,
+        bio,
+        updateBio
+    );
     return (
         <div className="profile-container">
             <div onClick={toggleUploader} className="profile-pic-container">

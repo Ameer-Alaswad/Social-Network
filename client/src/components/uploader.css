@@ -1,3 +1,17 @@
 #uploader-container {
     border: 3px solid black;
+    width: 300px;
+    border: 0px solid #1c6ea4;
+    border-radius: 13px 13px 13px 13px;
+    overflow: auto;
+    /* width: 600px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* height: 600px; */
+    background-color: white;
+    position: absolute;
+    left: 10px;
+    margin-top: 10px;
 }

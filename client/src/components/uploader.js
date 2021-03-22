@@ -19,16 +19,17 @@ export default class Uploader extends Component {
         axios.post("/uploadImage", formData).then((response) => {
             // console.log("data", response.data.imageUrl);
             this.props.addProfilePicture(response.data.imageUrl);
+            this.props.toggleUploader();
         });
     }
 
     render() {
         return (
             <div id="uploader-container">
-                <h1>hi</h1>
+                <h2>upload a picture!</h2>
                 <input type="file" onChange={(e) => this.handleChange(e)} />
                 <button onClick={() => this.uploadImg()}>upload</button>
-                <h1 onClick={this.props.toggleUploader}>x</h1>
+                <button onClick={this.props.toggleUploader}>close</button>
             </div>
         );
     }

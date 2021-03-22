@@ -1,4 +1,38 @@
+body {
+    background-color: rgba(0, 0, 0, 0.431);
+}
+.prfile-pic-container-in-app {
+    width: 80px;
+    height: 0;
+
+    width: 100%;
+}
 .prfile-pic-container-in-app img {
-    width: 100px;
-    height: 100px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 10%;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+#uplodaer-container-in-app {
+    margin-right: 10px;
+    display: flex;
+    justify-content: flex-end;
+    width: 500px;
+}
+#main-container-app {
+    height: 100vh;
+    position: relative;
+}
+#uploader-profile-container {
+    /* display: flex;
+    justify-content: space-between; */
+}
+h3 {
+    color: black;
+}
+button {
+    cursor: pointer;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
+import "./registration.css";
 
 export default class ResetPassword extends React.Component {
     constructor(props) {
@@ -82,10 +83,9 @@ export default class ResetPassword extends React.Component {
     render() {
         let { step } = this.state;
         return (
-            <div>
-                <h1>Reset</h1>
+            <div className="registration-container">
                 {step == 1 && (
-                    <form>
+                    <div className="registration-form-container">
                         <h1>Enter your Email</h1>
                         {/* ////////////////////////////////// */}
                         {this.state.error && (
@@ -97,15 +97,24 @@ export default class ResetPassword extends React.Component {
                         <input
                             type="email"
                             name="email"
+                            className="registration-inputs"
                             onChange={(e) => this.handleChange(e)}
                             required
                         />
-                        <button onClick={() => this.sendCode()}>Submit</button>
-                    </form>
+                        <button
+                            className="main-button"
+                            onClick={() => this.sendCode()}
+                        >
+                            Submit
+                        </button>
+                        <Link className="sign-up-link" to="/login">
+                            go back to Log in!
+                        </Link>
+                    </div>
                 )}
                 {step == 2 && (
-                    <form>
-                        <h1>Enter the code we just sent you</h1>
+                    <div className="registration-form-container">
+                        <h2>Enter the code we just sent you</h2>
                         {this.state.error && (
                             <p id="registration-warning-message">
                                 wrong code! :(
@@ -116,22 +125,30 @@ export default class ResetPassword extends React.Component {
                             name="code"
                             type="text"
                             required
+                            className="registration-inputs"
                         />
-                        <h1>Enter your new Password</h1>
+                        <h2>Enter your new Password</h2>
                         <input
                             onChange={(e) => this.handleChange(e)}
                             name="password"
                             type="password"
                             required
+                            className="registration-inputs"
                         />
-                        <button onClick={() => this.resetPassword()}>
+                        <button
+                            className="main-button"
+                            onClick={() => this.resetPassword()}
+                        >
                             Submit
                         </button>
-                    </form>
+                        <Link className="sign-up-link" to="/login">
+                            go back to Log in!
+                        </Link>
+                    </div>
                 )}
                 {step == 3 && (
-                    <div>
-                        <h1>your password has been changed</h1>
+                    <div className="registration-form-container">
+                        <h2>your password has been changed</h2>
                         <Link to="/login">go back to log in ??!</Link>
                     </div>
                 )}

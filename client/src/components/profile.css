@@ -3,5 +3,22 @@
     height: 300px;
 }
 .profile-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* width: 50%; */
+}
+.profile-container img {
     border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 10%;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-left: 50px;
+    margin-right: 3px;
+    margin-right: 50px;
+    object-fit: cover;
 }

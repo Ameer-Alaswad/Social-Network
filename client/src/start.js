@@ -19,7 +19,7 @@ if (location.pathname === "/welcome") {
 } else {
     elem = (
         <Provider store={store}>
-            <App />;
+            <App />
         </Provider>
     );
 }

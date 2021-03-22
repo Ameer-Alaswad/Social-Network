@@ -1,3 +1,7 @@
 .welcome-component-container {
     height: 100%;
 }
+#logo {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.431);
+}

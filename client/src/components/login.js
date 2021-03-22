@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
+import "./registration.css";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -47,35 +48,38 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <div>
-                <Link to="/">Click here to sign up!</Link>
-                <h1>Log in please</h1>
+            <div className="registration-container">
                 {this.state.error && (
                     <p id="registration-warning-message">
                         Password and Email do not match plz try again :(
                     </p>
                 )}
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    className="registration-inputs"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="registration-inputs"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <button
-                    onClick={() => this.handleClick()}
-                    className="main-button"
-                >
-                    Submit
-                </button>
-                <Link to="/reset">Forgot your Password?!</Link>
+                <div className="registration-form-container">
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        className="registration-inputs"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        className="registration-inputs"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <button
+                        onClick={() => this.handleClick()}
+                        className="main-button"
+                    >
+                        Submit
+                    </button>
+                    <Link className="sign-up-link" to="/">
+                        Click here to sign up!
+                    </Link>
+                    <Link to="/reset">Forgot your Password?!</Link>
+                </div>
             </div>
         );
     }

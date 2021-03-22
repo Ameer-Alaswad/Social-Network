@@ -97,6 +97,7 @@ module.exports.searchUsers = (val) => {
     const params = [val + "%"];
     return db.query(q, params);
 };
+// OR (first_name AND last_name ILIKE $1)
 
 module.exports.getFriends = (userId, otherUserId) => {
     const q = `

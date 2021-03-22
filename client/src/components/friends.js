@@ -22,9 +22,6 @@ export default function Freinds() {
         dispatch(getFriends());
         // dispatch(updateFreinds());
     }, []);
-    console.log(`friends`, friends);
-    console.log(`requests`, requests);
-
     return (
         <div className="container">
             <div>
@@ -36,16 +33,21 @@ export default function Freinds() {
                                 key={request.id}
                                 className="image-info-in-friends"
                             >
-                                <h3>
-                                    {request.first_name} {request.last_name}
-                                </h3>
-                                <img
-                                    src={
-                                        request.image ||
-                                        "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
-                                    }
-                                    alt=""
-                                />
+                                <Link
+                                    className="link-in-friends"
+                                    to={`/user/${request.id}`}
+                                >
+                                    <h3>
+                                        {request.first_name} {request.last_name}
+                                    </h3>
+                                    <img
+                                        src={
+                                            request.image ||
+                                            "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
+                                        }
+                                        alt=""
+                                    />
+                                </Link>
                                 <button
                                     onClick={() => {
                                         console.log("accept");
@@ -67,16 +69,21 @@ export default function Freinds() {
                                 key={friend.id}
                                 className="image-info-in-friends"
                             >
-                                <h3>
-                                    {friend.first_name} {friend.last_name}
-                                </h3>
-                                <img
-                                    src={
-                                        friend.image ||
-                                        "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
-                                    }
-                                    alt=""
-                                />
+                                <Link
+                                    className="link-in-friends"
+                                    to={`/user/${friend.id}`}
+                                >
+                                    <h3>
+                                        {friend.first_name} {friend.last_name}
+                                    </h3>
+                                    <img
+                                        src={
+                                            friend.image ||
+                                            "https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png"
+                                        }
+                                        alt=""
+                                    />
+                                </Link>
                                 <button
                                     onClick={() => {
                                         console.log("delete");

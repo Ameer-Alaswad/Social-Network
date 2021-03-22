@@ -8,17 +8,44 @@ export default class BioEditer extends Component {
         this.state = {
             edit: false,
             btntext: "",
+            bio: null,
         };
     }
     componentDidMount() {
-        console.log(`this.state.bio in bioEditor`, this.props.bio);
-        if (this.props.bio) {
-            this.setState({
-                btntext: "edit",
-            });
-        } else if (this.state.bio == null) {
+        console.log(`this.props.last`, this.props.first);
+        console.log(`this.state.bio in bioEditor >>>>>`, this.state.bio);
+        axios
+            .get("/userInfo")
+            .then((Info) => {
+                this.setState({
+                    bio: Info.data.userInfo.bio,
+                });
+                if (this.state.bio) {
+                    this.setState({
+                        btntext: "edit",
+                    });
+                } else if (this.state.bio == null) {
+                    this.setState({
+                        btntext: "add bio",
+                    });
+                }
+                console.log(`this.state.bio klaaab`, this.state.bio);
+            })
+            .catch((err) => console.log("err in axios get userInfo", err));
+
+        // if (this.props.bio) {
+        //     this.setState({
+        //         btntext: "edit",
+        //     });
+        // } else if (this.props.bio == null) {
+        //     this.setState({
+        //         btntext: "add bio",
+        //     });
+        // }
+        if (this.state.bio == null) {
             this.setState({
                 btntext: "add bio",
+                bio: "tell us about yourself",
             });
         }
     }
@@ -28,8 +55,11 @@ export default class BioEditer extends Component {
             [e.target.name]: e.target.value,
         });
     }
-    // add or edit
+    // add or editx
     handleClick() {
+        // if (this.state.edit == false) {
+        //     this.props.updateBio("tell us about yourself");
+        // }
         this.setState({
             edit: true,
         });
@@ -42,7 +72,7 @@ export default class BioEditer extends Component {
                 xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
             })
             .then((info) => {
-                // console.log(`info.data`, info.data.bio);
+                console.log(`info.data`, info.data.bio);
                 this.props.updateBio(info.data.bio);
                 if (this.state.bio) {
                     this.setState({
@@ -51,10 +81,12 @@ export default class BioEditer extends Component {
                     });
                 } else {
                     this.props.updateBio("tell us about yourself");
+                    // this.state.updateBio("tell us about yourself");
 
                     this.setState({
                         btntext: "add bio",
                         edit: false,
+                        bio: "tell us about yourself",
                     });
                 }
             });
@@ -80,11 +112,14 @@ export default class BioEditer extends Component {
                 )}
                 {this.state.edit && (
                     <div>
-                        <textarea
-                            name="bio"
-                            onChange={(e) => this.handleChange(e)}
-                            defaultValue={this.props.bio}
-                        />
+                        <div>
+                            <textarea
+                                placeholder="tell us about your self"
+                                name="bio"
+                                onChange={(e) => this.handleChange(e)}
+                                defaultValue={this.props.bio}
+                            />
+                        </div>
                         <button onClick={() => this.addBio()}>save</button>
                     </div>
                 )}
