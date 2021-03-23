@@ -9,6 +9,7 @@ import OtherProfile from "./components/otherProfile";
 import FindPeople from "./components/findPeople";
 import Friends from "./components/friends";
 import Navbar from "./navbar";
+import Chat from "./components/chat";
 
 export default class App extends Component {
     constructor(props) {
@@ -113,6 +114,7 @@ export default class App extends Component {
                     />
                     <Route path="/users" component={FindPeople} />
                     <Route path="/friends" component={Friends} />
+                    <Route path="/chat" component={Chat} />
                 </div>
             </BrowserRouter>
         );

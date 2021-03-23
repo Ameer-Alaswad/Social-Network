@@ -25,6 +25,9 @@ export default function Navbar(props) {
                     <li>
                         <Link to="/">Profile</Link>
                     </li>
+                    <li>
+                        <Link to="/chat">Chat</Link>
+                    </li>
                 </section>
                 <section>
                     <li

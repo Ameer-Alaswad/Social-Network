@@ -14,14 +14,31 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const { s3Url } = require("./config.json");
 ////////////////////////////////
+// socket
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 const cryptoRandomString = require("crypto-random-string");
 
-app.use(
-    cookieSession({
-        secret: `I'm always angry.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: `I'm always angry.`,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+//////////////////////////socket
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+///////////////
+
 // it must be uner the cookie applyMiddleware
 app.use(csurf());
 
@@ -392,6 +409,25 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const userId = socket.request.session.userId;
+    socket.on("disconnect", function () {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+    console.log(`socket with the id ${socket.id} is now disconnected`);
+
+    /* ... */
+    console.log(userId);
+    socket.on("message", (msg) => {
+        console.log("data from client: ", msg);
+        // to send the message to everyone
+        io.socket.emit("message", msg);
+    });
 });

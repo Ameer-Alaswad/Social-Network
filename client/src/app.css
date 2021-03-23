@@ -1,5 +1,8 @@
 body {
     background-color: rgba(0, 0, 0, 0.431);
+    /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDMBz9w-OUNeaPBQYHWEsJE5LsRCYB49QoMA&usqp=CAU");
+    background-repeat: no-repeat;
+    background-size: cover; */
 }
 .prfile-pic-container-in-app {
     width: 80px;
