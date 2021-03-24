@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getFriends, acceptFriend, deleteFriend } from "../redux/actions";
+import {
+    getFriends,
+    acceptFriend,
+    deleteFriend,
+    reject,
+} from "../redux/actions";
 import "./friends.css";
 
 export default function Freinds() {
@@ -49,12 +54,22 @@ export default function Freinds() {
                                     />
                                 </Link>
                                 <button
+                                    id="accept-button"
                                     onClick={() => {
                                         console.log("accept");
                                         dispatch(acceptFriend(request.id));
                                     }}
                                 >
                                     accept
+                                </button>
+                                <button
+                                    id="reject-button"
+                                    onClick={() => {
+                                        console.log("reject");
+                                        dispatch(reject(request.id));
+                                    }}
+                                >
+                                    reject
                                 </button>
                             </div>
                         );

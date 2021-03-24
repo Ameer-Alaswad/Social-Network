@@ -27,5 +27,26 @@ export default function reducer(state = {}, action) {
             data: state.data.filter((info) => info.id != action.friendId),
         };
     }
+    if (action.type === "REJECT") {
+        state = {
+            ...state,
+            data: state.data.filter((info) => info.id != action.friendId),
+        };
+    }
+
+    if (action.type === "RECENT_CHAT_MESSAGES") {
+        state = {
+            ...state,
+            recentChatMessages: action.messages,
+        };
+    }
+
+    if (action.type === "MESSAGE") {
+        console.log(`action.message in reducer`, action.message);
+        state = {
+            ...state,
+            recentChatMessages: [...state.recentChatMessages, action.message],
+        };
+    }
     return state;
 }

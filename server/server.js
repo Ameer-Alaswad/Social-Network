@@ -418,16 +418,46 @@ io.on("connection", function (socket) {
         return socket.disconnect(true);
     }
     const userId = socket.request.session.userId;
-    socket.on("disconnect", function () {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-    });
-    console.log(`socket with the id ${socket.id} is now disconnected`);
+    // socket.on("disconnect", function () {
+    //     console.log(`socket with the id ${socket.id} is now disconnected`);
+    // });
+    // console.log(`socket with the id ${socket.id} is now disconnected`);
 
     /* ... */
     console.log(userId);
+
+    db.getMessages()
+        .then(({ rows }) => {
+            // console.log(`rows`, rows.reverse());
+            io.sockets.emit("chatMessages", rows.reverse());
+        })
+        .catch((err) => {
+            console.log("err in socket get messages", err);
+        });
+
+    // to send the message to everyone
     socket.on("message", (msg) => {
-        console.log("data from client: ", msg);
-        // to send the message to everyone
-        io.socket.emit("message", msg);
+        console.log(`msg in server`, msg);
+        db.addChatMessage(userId, msg)
+            .then(({ rows }) => {
+                console.log(`rows`, rows);
+                db.getUserById(userId)
+                    .then((userInfo) => {
+                        io.sockets.emit("message", {
+                            first_name: userInfo.rows[0].first_name,
+                            last_name: userInfo.rows[0].last_name,
+                            image: userInfo.rows[0].image,
+                            id: rows[0].id,
+                            message: msg,
+                            time: rows[0].time,
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(`err in socket db get user by id`, err);
+                    });
+            })
+            .catch((err) => {
+                console.log(`err in socket db add chat message`, err);
+            });
     });
 });

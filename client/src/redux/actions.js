@@ -76,3 +76,34 @@ export async function deleteFriend(id) {
         console.log(`error`, error);
     }
 }
+export async function chatMessages(msgs) {
+    return {
+        type: "RECENT_CHAT_MESSAGES",
+        messages: msgs,
+    };
+}
+
+export async function chatMessage(msg) {
+    console.log(`msg in action`, msg);
+    return {
+        type: "MESSAGE",
+        message: msg,
+    };
+}
+export async function reject(id) {
+    console.log("reject id", id);
+    await axios.post(
+        "/friend-endFriendship",
+        {
+            otherUserId: id,
+        },
+        {
+            xsrfCookieName: "mytoken",
+            xsrfHeaderName: "csrf-token", // the csurf middleware automatically checks this header for the token
+        }
+    );
+    return {
+        type: "REJECT",
+        friendId: id,
+    };
+}

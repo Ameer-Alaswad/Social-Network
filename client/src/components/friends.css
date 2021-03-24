@@ -21,3 +21,9 @@
 .link-in-friends {
     text-decoration: none;
 }
+#reject-button {
+    margin-top: 1px;
+}
+#accept-button {
+    margin-bottom: 0;
+}

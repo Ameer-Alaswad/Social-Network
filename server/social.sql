@@ -38,3 +38,4 @@ CREATE TABLE messages
     sender_id INTEGER NOT NULL REFERENCES users(id),
     time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ 
