@@ -16,9 +16,9 @@
     width: 100%;
 }
 .message-container {
-    border: 1px solid black;
+    border: 1px solid white;
     margin: 10px 10px;
-    background-color: rgba(0, 0, 0, 0.431);
+    background-color: white;
 }
 .message-container img {
     margin-top: 5px;
@@ -55,5 +55,5 @@
 .text-area-chat {
     width: 845px;
     border-radius: 0;
-    height: 80px;
+    height: 60px;
 }

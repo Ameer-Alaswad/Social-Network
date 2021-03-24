@@ -10,6 +10,7 @@ import FindPeople from "./components/findPeople";
 import Friends from "./components/friends";
 import Navbar from "./navbar";
 import Chat from "./components/chat";
+import OnlineUsers from "./components/onlineUsers";
 
 export default class App extends Component {
     constructor(props) {
@@ -115,6 +116,7 @@ export default class App extends Component {
                     <Route path="/users" component={FindPeople} />
                     <Route path="/friends" component={Friends} />
                     <Route path="/chat" component={Chat} />
+                    <Route path="/online" component={OnlineUsers} />
                 </div>
             </BrowserRouter>
         );

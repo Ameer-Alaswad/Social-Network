@@ -180,3 +180,11 @@ module.exports.getMessages = () => {
     `;
     return db.query(q);
 };
+
+module.exports.getUserByIds = (userIds) => {
+    const q = `SELECT first_name,last_name,image,bio,id FROM users WHERE
+     id = ANY($1)
+     `;
+    const params = [userIds];
+    return db.query(q, params);
+};

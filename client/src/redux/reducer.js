@@ -1,8 +1,6 @@
 export default function reducer(state = {}, action) {
-    // series of IF statements....
     if (action.type === "GET_FRIENDS") {
         state = { ...state, data: action.data };
-        // update state somehow...
     }
 
     if (action.type === "ACCEPT_FRIEND") {
@@ -46,6 +44,13 @@ export default function reducer(state = {}, action) {
         state = {
             ...state,
             recentChatMessages: [...state.recentChatMessages, action.message],
+        };
+    }
+    if (action.type === "ONLINE_USERS") {
+        console.log(`action.data in reducer`, action.data);
+        state = {
+            ...state,
+            onlineUsers: action.data,
         };
     }
     return state;

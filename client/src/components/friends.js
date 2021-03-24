@@ -105,7 +105,7 @@ export default function Freinds() {
                                         dispatch(deleteFriend(friend.id));
                                     }}
                                 >
-                                    delete
+                                    unfriend
                                 </button>
                             </div>
                         );

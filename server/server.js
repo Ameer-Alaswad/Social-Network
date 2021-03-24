@@ -412,17 +412,41 @@ app.get("*", function (req, res) {
 server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
-
+let onlineUsers = {};
 io.on("connection", function (socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
     const userId = socket.request.session.userId;
-    // socket.on("disconnect", function () {
-    //     console.log(`socket with the id ${socket.id} is now disconnected`);
-    // });
-    // console.log(`socket with the id ${socket.id} is now disconnected`);
+    if (!userId) {
+        return socket.disconnect(true);
+    }
 
+    ////////////////////////////////////
+    /////////////////////
+    ////////////
+    // io.sockets.emit("online", onlineUsers);
+    onlineUsers[socket.id] = userId;
+    const onlineUsersId = Object.values(onlineUsers);
+    let newUsers = onlineUsersId.filter((users) => users != userId);
+    // console.log(`online`, onlineUsersId);
+
+    db.getUserByIds(newUsers).then(({ rows }) => {
+        console.log(`rows`, rows);
+        io.sockets.emit("onlineUsers", rows);
+    });
+    // console.log(`newUsers`, newUsers);
+    // console.log(`onlineUsers`, onlineUsers);
+    socket.on("disconnect", function () {
+        delete onlineUsers[socket.id];
+        console.log(`after onlineUsers`, onlineUsers);
+
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+    // console.log(`socket with the id ${socket.id} is now disconnected`);
+    ///////////////////////////////////////////////////////
+    ////////
+    /////////////////////////////////////////
     /* ... */
     console.log(userId);
 

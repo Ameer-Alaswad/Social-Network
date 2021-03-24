@@ -107,3 +107,10 @@ export async function reject(id) {
         friendId: id,
     };
 }
+export async function onlineUsers(data) {
+    console.log(`data in action`, data);
+    return {
+        type: "ONLINE_USERS",
+        data: data,
+    };
+}
