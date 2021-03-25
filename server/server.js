@@ -14,14 +14,14 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const { s3Url } = require("./config.json");
 //////////////////////////////////////////
-let cookie_sec;
-if (process.env.COOKIE_SECRET) {
-    // we are in production, we need to supply our secret in the config vars on heroku, and set the value to those secrets
-    cookie_sec = process.env.COOKIE_SECRET;
-} else {
-    cookie_sec = require("../secrets.json").cookie_secret; // evalutes to the string value that cookie_secret has in our secrets.json
-}
-////////////////////////////////
+// let cookie_sec;
+// if (process.env.COOKIE_SECRET) {
+//     // we are in production, we need to supply our secret in the config vars on heroku, and set the value to those secrets
+//     cookie_sec = process.env.COOKIE_SECRET;
+// } else {
+//     cookie_sec = require("../secrets.json").cookie_secret; // evalutes to the string value that cookie_secret has in our secrets.json
+// }
+// ////////////////////////////////
 // socket
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
@@ -437,10 +437,10 @@ io.on("connection", function (socket) {
     onlineUsers[socket.id] = userId;
     console.log(`onlineUsers`, onlineUsers);
     const onlineUsersId = Object.values(onlineUsers);
-    let newUsers = onlineUsersId.filter((users) => users != userId);
+    // let newUsers = onlineUsersId.filter((users) => users != userId);
     // console.log(`online`, onlineUsersId);
 
-    db.getUserByIds(newUsers).then(({ rows }) => {
+    db.getUserByIds(onlineUsersId).then(({ rows }) => {
         console.log(`rows`, rows);
         io.sockets.emit("onlineUsers", rows);
     });

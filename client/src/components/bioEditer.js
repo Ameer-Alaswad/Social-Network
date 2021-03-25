@@ -114,6 +114,9 @@ export default class BioEditer extends Component {
                     <div>
                         <div>
                             <textarea
+                                rows="5"
+                                cols="50"
+                                className="text-area-in-bio-editor"
                                 placeholder="tell us about your self"
                                 name="bio"
                                 onChange={(e) => this.handleChange(e)}
