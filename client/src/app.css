@@ -18,6 +18,7 @@ body {
     cursor: pointer;
     margin-top: 3px;
     margin-right: 10px;
+    object-fit: cover;
 }
 #uplodaer-container-in-app {
     margin-right: 10px;

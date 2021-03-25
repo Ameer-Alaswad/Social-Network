@@ -26,7 +26,13 @@ const { s3Url } = require("./config.json");
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
-        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+        callback(
+            null,
+            req.headers.referer.startsWith("http://localhost:3000") ||
+                req.headers.referer.startsWith(
+                    "https://ameer-social-network.herokuapp.com/"
+                )
+        ),
 });
 const cryptoRandomString = require("crypto-random-string");
 
