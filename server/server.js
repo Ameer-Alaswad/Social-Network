@@ -427,6 +427,7 @@ io.on("connection", function (socket) {
     ////////////
     // io.sockets.emit("online", onlineUsers);
     onlineUsers[socket.id] = userId;
+    console.log(`onlineUsers`, onlineUsers);
     const onlineUsersId = Object.values(onlineUsers);
     let newUsers = onlineUsersId.filter((users) => users != userId);
     // console.log(`online`, onlineUsersId);
@@ -440,7 +441,7 @@ io.on("connection", function (socket) {
     socket.on("disconnect", function () {
         delete onlineUsers[socket.id];
         console.log(`after onlineUsers`, onlineUsers);
-
+        io.sockets.emit("userLeft", { user: userId });
         console.log(`socket with the id ${socket.id} is now disconnected`);
     });
     // console.log(`socket with the id ${socket.id} is now disconnected`);

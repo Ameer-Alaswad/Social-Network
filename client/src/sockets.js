@@ -1,4 +1,9 @@
-import { chatMessages, chatMessage, onlineUsers } from "./redux/actions";
+import {
+    chatMessages,
+    chatMessage,
+    onlineUsers,
+    userLeft,
+} from "./redux/actions";
 import { io } from "socket.io-client";
 
 export let socket;
@@ -16,6 +21,10 @@ export const init = (store) => {
         });
         socket.on("onlineUsers", (data) => {
             store.dispatch(onlineUsers(data));
+        });
+        socket.on("userLeft", (user) => {
+            console.log(`data`, user);
+            store.dispatch(userLeft(user));
         });
     }
 };

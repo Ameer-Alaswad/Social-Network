@@ -53,5 +53,13 @@ export default function reducer(state = {}, action) {
             onlineUsers: action.data,
         };
     }
+    if (action.type === "USER_LEFT") {
+        state = {
+            ...state,
+            onlineUsers: state.onlineUsers.filter((userLeft) => {
+                return userLeft.id != action.user.user;
+            }),
+        };
+    }
     return state;
 }

@@ -1,0 +1,23 @@
+.online-user-container {
+    display: flex;
+    background-color: aliceblue;
+    margin: 7px 7px;
+    border-radius: 5%;
+}
+
+.online-user-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 3px 3px;
+    margin-top: 6px;
+}
+.online-user-container h1 {
+    font-size: 15px;
+    margin-top: 15px;
+    margin-left: 5px;
+    color: black;
+}
+.link-in-online-users {
+    text-decoration: none;
+}

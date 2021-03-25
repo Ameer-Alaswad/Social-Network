@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./chat.css";
 import { socket } from "../sockets";
-import { io } from "socket.io-client";
+import OnlineUsers from "./onlineUsers";
 
 export default function Chat() {
     const chatMessages = useSelector(
@@ -65,6 +65,10 @@ export default function Chat() {
                 placeholder="Type a message here"
                 onKeyDown={keyCheck}
             ></textarea>
+            <h2 className="online-users-title-in-chat">online Users</h2>
+            <div className="online-users">
+                <OnlineUsers />
+            </div>
         </div>
     );
 }

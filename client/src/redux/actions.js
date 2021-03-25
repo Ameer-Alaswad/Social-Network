@@ -114,3 +114,11 @@ export async function onlineUsers(data) {
         data: data,
     };
 }
+
+export async function userLeft(user) {
+    console.log(`useer in action`, user);
+    return {
+        type: "USER_LEFT",
+        user: user,
+    };
+}
