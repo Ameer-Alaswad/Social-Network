@@ -13,6 +13,14 @@ const s3 = require("./s3");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const { s3Url } = require("./config.json");
+//////////////////////////////////////////
+let cookie_sec;
+if (process.env.COOKIE_SECRET) {
+    // we are in production, we need to supply our secret in the config vars on heroku, and set the value to those secrets
+    cookie_sec = process.env.COOKIE_SECRET;
+} else {
+    cookie_sec = require("../secrets.json").cookie_secret; // evalutes to the string value that cookie_secret has in our secrets.json
+}
 ////////////////////////////////
 // socket
 const server = require("http").Server(app);
