@@ -3,7 +3,7 @@
 Social-Network enables users to communicate with each other, make profiles basically stay connected to your friends 
 # How can i run it ?
 clone it then -npm run dev-
-Runs the app in the development mode. Open http://localhost:3001 to view it in the browser.
++ Runs the app in the development mode. Open http://localhost:3001 to view it in the browser.
 # Technologies:
 * React
 * Redux
