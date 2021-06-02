@@ -5,14 +5,14 @@ Social-Network enables users to communicate with each other, make profiles basic
 clone it then -npm run dev-
 Runs the app in the development mode. Open http://localhost:3001 to view it in the browser.
 # Technologies:
-*React
-*Redux
-*Node.js
-*Express
-*Socket.Io
-*PostgreSQL
-*AWS S3 - hosting photos
-#Features:
+* React
+* Redux
+* Node.js
+* Express
+* Socket.Io
+* PostgreSQL
+* AWS S3 - hosting photos
+# Features:
 - You can create a profile,upload a photo 
 - You can add and edit a bio
 - You can search and add users
