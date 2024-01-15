@@ -11,6 +11,7 @@ module.exports = () => ({
     output: {
         path: path.join(__dirname, "client", "public"),
         filename: "bundle.js",
+        hashFunction: "sha256",
     },
     performance: {
         hints: false,
@@ -33,7 +34,8 @@ module.exports = () => ({
             {
                 test: /\.js$/,
                 loader: "babel-loader",
-            }, {
+            },
+            {
                 test: /\.css$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
@@ -47,7 +49,9 @@ module.exports = () => ({
             },
         ],
     },
-    plugins: [new MiniCssExtractPlugin({
-        filename: 'bundle.css',
-    })],
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "bundle.css",
+        }),
+    ],
 });
