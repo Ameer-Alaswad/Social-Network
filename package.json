@@ -12,7 +12,7 @@
         "test": "jest"
     },
     "engines": {
-        "node": "20.x"
+        "node": "18.x"
     },
     "dependencies": {
         "@babel/cli": "^7.23.4",
